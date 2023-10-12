@@ -1,6 +1,5 @@
 import Cabecalho from '@/components/Cabecalho/Cabecalho'
-import Rodape from '@/components/Rodape/Rodape' // Import the Rodape component
-import './globals.css'
+import Rodape from '@/components/Rodape/Rodape'
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -12,11 +11,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt-br">
+    <html lang="pt">
       <body className={inter.className}>
-        <Cabecalho />
-        {children}
-        <Rodape /> {/* Render the Rodape component */}
+        <Cabecalho/>
+          {children}
+        <Rodape/>
       </body>
     </html>
   )

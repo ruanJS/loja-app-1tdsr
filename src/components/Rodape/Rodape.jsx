@@ -3,7 +3,7 @@ import React from 'react';
 export default function Rodape() {
     return (
         <div>
-            <p>©Todos os direiros reservados.</p>
+            <p>&copy;Todos os direitos reservados - 2023</p>
         </div>
     )
 }
