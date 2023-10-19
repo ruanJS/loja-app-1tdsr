@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 export default function Rodape() {
-    return (
-        <div>
-            <p>&copy;Todos os direitos reservados - 2023</p>
-        </div>
-    )
+  return (
+    <div className="bg-gray-700 p-2 text-center text-white">
+      <p>&copy; Todos os direitos reservados - 2023</p>
+    </div>
+  );
 }

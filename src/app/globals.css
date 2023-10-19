@@ -1,3 +1,9 @@
-/* @tailwind base;
+@tailwind base;
 @tailwind components;
-@tailwind utilities; */
+@tailwind utilities;
+
+@layer components {
+  .p-linha >p{
+    @apply inline p-2.8 hover:bg-amber-400 transition duration-300 ease-in-out;
+  }
+}
