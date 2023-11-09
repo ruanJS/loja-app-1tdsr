@@ -1,37 +1,45 @@
 import {promises as fs} from "fs"
 import { NextResponse } from "next/server";
-import { cwd } from "process";
 
-const file = await fs.readFile(process.cwd() + "/src/app/api/base/data.json", "utf8"); 
+const file = await fs.readFile(process.cwd() + "/src/app/api/base/data.json", "utf8");
 
 export async function GET(){
 
-    //parseando a base de dados dos usuarios
+    //PARSEANDO A BASE DE DADOS DOS USUÁRIOS
     const body = JSON.parse(file);
 
-    //retornadno um status
-    return NextResponse.json(body);
+    //RETORNANDO UM STATUS.
+    return NextResponse.json(body); 
 
 }
 
-export async function POST(request,response){
 
-    //recebendo os dados enviados na requisição
-    const usuario = await request.json();
-
+const handleLogin = async (email,senha) => {
     const body = await JSON.parse(file);
 
-    for (let x = 0; x < body.usuarios.length; x++) {
-        const u = body.usuarios[x];
+    //Sistema de validação de login, retornando um usuário válido, ou undefined caso não encontre.    
+    const usuarioValidado = body.usuarios.find((user) => user.email == email && user.senha == senha);
+
+    return usuarioValidado;
+}
 
 
-        if(u.email == usuario.email && u.senha == usuario.senha){
-            return NextResponse.json({"status":"ok"});
+export async function POST(request,response){
+
+    //RECEBENDO OS DADOS ENVIADOS NA REQUISIÇÃO!
+    const {id,nome,email,senha,info} = await request.json();
+
+    if(info == "login"){
+        //VALIDANDO O LOGIN
+        const uv = await handleLogin(email,senha);
+
+        //CASO O USUÁRIO SEJA VÁLIDO, RETORNA TRUE, CASO CONTRÁRIO, RETORNA FALSE.
+        if(uv){
+            return NextResponse.json({"status":true,"usuario":uv});
         }
+    }else if(info == "cadastro"){
         
     }
 
-    //retorno da requisição!
-    return NextResponse.json({"status":"error"});
-
+    return NextResponse.json({"status":false});
 }

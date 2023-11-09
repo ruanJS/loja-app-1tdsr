@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 //IMPORTAÇÃO DO REACT E DO HOOK useState.
 import {useState} from "react";
 
-export default function LoginUsers() {
+export default function CadUsers({params}) {
 
         //MSG ERRO
         const [msg, setMsg] = useState("");
@@ -14,7 +14,9 @@ export default function LoginUsers() {
 
         //ESTRUTURA DE DADOS PARA ARMAZENAR O USUÁRIO.
         const [usuario,setUsuario] = useState({
-            "info":"login",
+            "info":"cadastro",
+            "id":"",
+            "nome":"",
             "email":"",
             "senha":""
         });
@@ -47,39 +49,22 @@ export default function LoginUsers() {
                     //Verificando se o usuário existe.
                     if(data.status){
 
-                        //Gerar um token para o usuário.
-                        const token = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
-                        
-                        //Armazenar o token no sessionStorage.
-                        sessionStorage.setItem("token-user",token);
-
-                        //Armazenar o obj-usuário no sessionStorage.
-                        sessionStorage.setItem("obj-user",JSON.stringify(data.usuario));
-
                         //REDIRECIONANDO O USUÁRIO PARA A PÁGINA DE HOME.
-                        setMsg("Login realizado com sucesso!");
+                        setMsg("Cadastro realizado com sucesso!");
                         setTimeout(() => {
                             setMsg("");
-                           window.location.href = "/";
+                           window.location.href = "/login";
                         }, 5000);
                         
                     }else{
-                        //Caso o login esteja incorreto, iremos limpar o estado e redirecionar o usuário para a página de login mesmo.
-                        setMsg("Login incorreto!");
+                        //Caso ocorra alguma problema no cadastro, iremos limpar o estado e redirecionar o usuário para a página de cadastro mesmo.
+                        setMsg("Ocorreu um erro ao realizar o cadastro!");
                         //REDIRECIONANDO O USUÁRIO PARA A PÁGINA DE LOGIN.
                         setTimeout(() => {
                             setMsg("");
-                            setUsuario({
-                                "info":"login",
-                                "email":"",
-                                "senha":""
-                            });
-                            navigate.push("/login");
                         }, 5000);
-
                     }
                 }
-
 
             } catch (error) {
                 //REDIRECIONANDO O USUÁRIO PARA A PÁGINA DE ERRO.
@@ -91,12 +76,16 @@ export default function LoginUsers() {
 
   return (
     <div>
-        <h1>Identificação de Usuários</h1>
+        <h1>Cadastro de Usuários</h1>
         <h2 className="bg-orange-500 text-4xl">{msg}</h2>
         <div className="forms-login-cad">
             <form onSubmit={handleSubmit}>
                 <fieldset>
-                    <legend>LOGIN</legend>
+                    <legend>CADASTRO</legend>
+                  <div>
+                        <label htmlFor="idNome">Nome:</label>
+                        <input type="text" name="nome" id="idNome" placeholder="Digite seu Nome." value={usuario.nome} onChange={handleChange} />
+                    </div>
                     <div>
                         <label htmlFor="idEmail">Email:</label>
                         <input type="email" name="email" id="idEmail" placeholder="Digite seu Email." value={usuario.email} onChange={handleChange} />
@@ -106,10 +95,10 @@ export default function LoginUsers() {
                         <input type="password" name="senha" id="idSenha" placeholder="Digite sua Senha." value={usuario.senha} onChange={handleChange}/>
                     </div>
                     <div>
-                        <button>Login</button>
+                        <button>Cadastrar</button>
                     </div>
                     <div>
-                        <p>Se você ainda não tem cadastro conosco. <Link href="/login/cad">CLIQUE AQUI</Link></p>
+                        <p>Se você já tem cadastro conosco. <Link href="/login">CLIQUE AQUI</Link></p>
                     </div>
                 </fieldset>
             </form>
